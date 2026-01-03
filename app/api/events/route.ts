@@ -1,5 +1,6 @@
 import connectDB from "@/lib/mongodb";
 import { NextRequest, NextResponse } from "next/server";
+import Event from '@database/event.model'
 
 export async function POST(req: NextRequest) {
     try{
@@ -11,6 +12,10 @@ export async function POST(req: NextRequest) {
         } catch (e){
             return NextResponse.json({ message: 'Invalid Json data format.'}, { status: 400 })
         }
+
+        const createdEvent = await Event.create(event);
+
+        return NextResponse.json({ message: 'Event created.', event: createdEvent })
     }catch(e){
         console.error(e);
         return NextResponse.json({ message: 'Event Creation Failed', error: e instanceof Error ? e.message : 'Unknown'}, { status: 400 })
