@@ -42,7 +42,11 @@ export async function POST(req: NextRequest) {
 
 export async function GET(){
     try{
+        await connectDB();
 
+        const events = await Event.find().sort({ createdAt: -1});
+
+        return NextResponse.json({ message: 'Event list successfully', events});
     } catch(e){
         return NextResponse.json({ message: 'Event fetching failed', error: e}, {status: 500})
     }
