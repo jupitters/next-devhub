@@ -29,6 +29,8 @@ export async function POST(req: NextRequest) {
             }).end(buffer);
         });
 
+        event.image = (uploadResult as { secure_url: string}).secure_url;
+
         const createdEvent = await Event.create(event);
 
         return NextResponse.json({ message: 'Event created.', event: createdEvent }, { status: 201 },)
