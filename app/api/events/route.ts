@@ -13,6 +13,14 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ message: 'Invalid Json data format.'}, { status: 400 })
         }
 
+        const file = formData.get('image') as File;
+        if(!file) {
+            return NextResponse.json({message: 'Image file is required'}, { status: 400 })
+        }
+
+        const arrayBuffer = await file.arrayBuffer();
+        
+
         const createdEvent = await Event.create(event);
 
         return NextResponse.json({ message: 'Event created.', event: createdEvent }, { status: 201 },)
