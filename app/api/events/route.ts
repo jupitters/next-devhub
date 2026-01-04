@@ -1,6 +1,7 @@
 import connectDB from "@/lib/mongodb";
 import { NextRequest, NextResponse } from "next/server";
 import Event from '@/database/event.model'
+import { v2 as cloudinary } from 'cloudinary';
 
 export async function POST(req: NextRequest) {
     try{
@@ -19,7 +20,11 @@ export async function POST(req: NextRequest) {
         }
 
         const arrayBuffer = await file.arrayBuffer();
-        
+        const buffer = Buffer.from(arrayBuffer);
+
+        const uploadResult = await new Promise((resolve, reject) => {
+
+        })
 
         const createdEvent = await Event.create(event);
 
