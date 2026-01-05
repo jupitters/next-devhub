@@ -10,10 +10,21 @@ const EventDetailItem = ({ icon, alt, label }: { icon: string; alt: string; labe
   </div>
 )
 
+const EventAgenda = ({ agendaItems }: { agendaItems: string[] }) => (
+  <div className="agenda">
+    <h2>Agenda</h2>
+    <ul>
+      {agendaItems.map((item) => (
+        <li key={item}>{item}</li>
+      ))}
+    </ul>
+  </div>
+)
+
 const EventDetailsPage = async ({ params }: { params: Promise<{ slug: string}>}) => {
   const { slug } = await params;
   const request = await fetch(`${BASE_URL}/api/events/${slug}`);
-  const { event: { description, image, overview, date, time, location, mode, agenda, audience, tags} } = await request.json();
+  const { event: { description, image, overview, date, time, location, mode, agenda, audience, tags, organizer} } = await request.json();
 
   if (!description) return notFound();
 
@@ -37,7 +48,11 @@ const EventDetailsPage = async ({ params }: { params: Promise<{ slug: string}>})
             <EventDetailItem icon="/icons/pin.svg" alt="pin" label={location} />
             <EventDetailItem icon="/icons/mode.svg" alt="mode" label={mode} />
             <EventDetailItem icon="/icons/audience.svg" alt="audience" label={audience} />
-            
+          </section>
+          <EventAgenda agendaItems={JSON.parse(agenda[0])} />
+          <section className="flex-col-gap-2">
+            <h2>About the organizer</h2>
+            <p>{ organizer }</p>
           </section>
         </div>
         <aside className="booking">
