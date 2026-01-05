@@ -5,9 +5,9 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const EventDetailsPage = async ({ params }: { params: Promise<{ slug: string}>}) => {
   const { slug } = await params;
   const request = await fetch(`${BASE_URL}/api/events/${slug}`);
-  const { data } = await request.json();
+  const { event } = await request.json();
 
-  if (!data) return notFound();
+  if (!event) return notFound();
 
   return (
     <section id="event">
