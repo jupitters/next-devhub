@@ -1,6 +1,39 @@
+import { IEvent } from '@/database/event.model';
+import { getSimilarEventsBySlug } from '@/lib/actions/event.actions';
+import { notFound } from 'next/navigation';
 import React from 'react'
+import Image from 'next/image'
+import BookEvent from './BookEvent';
 
-const EventDetails = () => {
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
+const EventDetailItem = ({ icon, alt, label }: { icon: string; alt: string; label: string }) => (
+  <div className="flex-row-gap-2 items-center">
+    <Image src={icon} alt={alt} width={17} height={17} />
+    <p>{label}</p>
+  </div>
+)
+
+const EventAgenda = ({ agendaItems }: { agendaItems: string[] }) => (
+  <div className="agenda">
+    <h2>Agenda</h2>
+    <ul>
+      {agendaItems.map((item) => (
+        <li key={item}>{item}</li>
+      ))}
+    </ul>
+  </div>
+)
+
+const EventTags = ({ tags }: { tags: string[] }) => (
+  <div className="flex flex-row gap-1.5 flex-wrap">
+    {tags.map((tag) => (
+      <div className="pill" key={tag}>{tag}</div>
+    ))}
+  </div>
+)
+
+const EventDetails = async () => {
   let event;
     try {
       const request = await fetch(`${BASE_URL}/api/events/${slug}`);
