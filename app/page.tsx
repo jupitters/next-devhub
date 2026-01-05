@@ -4,6 +4,8 @@ import { IEvent } from '@/database';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const page = async () => {
+  'use cache';
+  cacheLife('hours');
   const response = await fetch(`${BASE_URL}/api/events`);
   const { events } = await response.json();
 
