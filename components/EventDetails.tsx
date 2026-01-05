@@ -4,6 +4,8 @@ import { notFound } from 'next/navigation';
 import React from 'react'
 import Image from 'next/image'
 import BookEvent from './BookEvent';
+import EventCard from './EventCard';
+import { cacheLife } from 'next/cache';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -33,7 +35,11 @@ const EventTags = ({ tags }: { tags: string[] }) => (
   </div>
 )
 
-const EventDetails = async () => {
+const EventDetails = async ({ params }: { params: Promise<string> }) => {
+    'use cache';
+    cacheLife('hours');
+    const slug = await params;
+
   let event;
     try {
       const request = await fetch(`${BASE_URL}/api/events/${slug}`);
