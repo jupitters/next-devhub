@@ -1,5 +1,6 @@
 import BookEvent from "@/components/BookEvent";
 import EventCard from "@/components/EventCard";
+import { IEvent } from "@/database/event.model";
 import { getSimilarEventsBySlug } from "@/lib/actions/event.actions";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -79,12 +80,12 @@ const EventDetailsPage = async ({ params }: { params: Promise<{ slug: string}>})
             <EventDetailItem icon="/icons/mode.svg" alt="mode" label={mode} />
             <EventDetailItem icon="/icons/audience.svg" alt="audience" label={audience} />
           </section>
-          <EventAgenda agendaItems={JSON.parse(agenda[0])} />
+          <EventAgenda agendaItems={agenda} />
           <section className="flex-col-gap-2">
             <h2>About the organizer</h2>
             <p>{ organizer }</p>
           </section>
-          <EventTags tags={JSON.parse(tags[0])} />
+          <EventTags tags={tags} />
         </div>
 
         <aside className="booking">
