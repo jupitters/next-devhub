@@ -21,6 +21,14 @@ const EventAgenda = ({ agendaItems }: { agendaItems: string[] }) => (
   </div>
 )
 
+const EventTags = ({ tags }: { tags: string[] }) => (
+  <div className="flex flex-row gap-1.5 flex-wrap">
+    {tags.map((tag) => (
+      <div className="pill" key={tag}>{tag}</div>
+    ))}
+  </div>
+)
+
 const EventDetailsPage = async ({ params }: { params: Promise<{ slug: string}>}) => {
   const { slug } = await params;
   const request = await fetch(`${BASE_URL}/api/events/${slug}`);
@@ -54,7 +62,9 @@ const EventDetailsPage = async ({ params }: { params: Promise<{ slug: string}>})
             <h2>About the organizer</h2>
             <p>{ organizer }</p>
           </section>
+          <EventTags tags={JSON.parse(tags[0])} />
         </div>
+
         <aside className="booking">
           <p className="text-lg font-semibold">Book Event</p>
         </aside>
